@@ -13,6 +13,25 @@ winwHeight = window.winfo_reqheight()
 posRight = int(window.winfo_screenwidth() / 2 - winWidth / 2)
 posDown = int(window.winfo_screenheight() / 2 - winwHeight / 2)
 window.geometry("+{}+{}".format(posRight, posDown))
+window.mainloop()
+-----------------------------------
+#finalnie
+from tkinter import *
+
+
+window = Tk() # declare the window
+
+window.title("HANGMAN") # set window title
+
+window.configure(width = (int(window.winfo_screenwidth())), height= (int(window.winfo_screenheight()))) # set window width and height
+
+window.configure(bg='grey') # set window background color
+
+frame_play = Frame(window)
+frame_play.grid(column = 1000, row = 100)
+button_play = Button(frame_play, text = 'PLAY', fg = 'black', bg = 'white')
+button_play.grid(column = 1000, row = 100)
+
 
 
 
