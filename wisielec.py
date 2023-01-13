@@ -28,14 +28,12 @@ frame1.pack(expand = True)
 
 #okienko gry
 frame_game = Frame(window, width = (int(window.winfo_screenwidth())), height= (int(window.winfo_screenheight())))
-frame_game.pack(side=TOP)
 frame_game.pack_propagate(False)
 frame3 = Frame(frame_game, bg = 'pink')
 frame3.pack(expand = True)
 
 #okienko z ustawieniami
 frame_settings = Frame(window, width = (int(window.winfo_screenwidth())), height= (int(window.winfo_screenheight())))
-frame_settings.pack(side=TOP)
 frame_settings.pack_propagate(False)
 frame2 = Frame(frame_settings, bg = 'pink')
 frame2.pack(expand = True)
