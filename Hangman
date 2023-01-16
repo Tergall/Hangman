@@ -1,39 +1,70 @@
 from tkinter import *
 
-# declare the window
-window = Tk()
-# set window title
-window.title("HANGMAN")
-# set window width and height
-window.configure(width = int(window.winfo_screenwidth()), height= int(window.winfo_screenheight()))
-# set window background color
-window.configure(bg='pink')
-winWidth = window.winfo_reqwidth()
-winwHeight = window.winfo_reqheight()
-posRight = int(window.winfo_screenwidth() / 2 - winWidth / 2)
-posDown = int(window.winfo_screenheight() / 2 - winwHeight / 2)
-window.geometry("+{}+{}".format(posRight, posDown))
-window.mainloop()
------------------------------------
-#finalnie
-from tkinter import *
-
-
 window = Tk() # declare the window
-
 window.title("HANGMAN") # set window title
-
 window.configure(width = (int(window.winfo_screenwidth())), height= (int(window.winfo_screenheight()))) # set window width and height
-
 window.configure(bg='grey') # set window background color
 
-frame_play = Frame(window)
-frame_play.grid(column = 1000, row = 100)
-button_play = Button(frame_play, text = 'PLAY', fg = 'black', bg = 'white')
-button_play.grid(column = 1000, row = 100)
+def changeframe(from_f, to_f):
+    from_f.pack_forget()
+    to_f.pack()
+
+def changedifficulty(button):
+    if button['text'] == 'EASY':
+        button['text'] = 'NORMAL'
+    elif button['text'] == 'NORMAL':
+        button['text'] = 'HARD'
+    else:
+        button['text'] = 'EASY'
+	
+
+
+#okienko główne
+frame_menu = Frame(window, width = (int(window.winfo_screenwidth())), height= (int(window.winfo_screenheight())), bg='#9AB8BA')
+frame_game = Frame(window, width = (int(window.winfo_screenwidth())), height= (int(window.winfo_screenheight())), bg = '#9AB8BA')
+frame_settings = Frame(window, width = (int(window.winfo_screenwidth())), height= (int(window.winfo_screenheight())), bg = '#9AB8BA')
+
+
+frame_menu.pack(side=TOP)
+frame_menu.pack_propagate(False)
+frame1 = Frame(frame_menu, bg = '#9AB8BA')
+frame1.pack(expand = True)
+
+#okienko gry
+
+frame_game.pack_propagate(False)
+frame3 = Frame(frame_game, bg = '#9AB8BA')
+frame3.pack(expand = True)
 
 
 
+#okienko z ustawieniami
+
+frame_settings.pack_propagate(False)
+frame2 = Frame(frame_settings, bg = '#9AB8BA')
+frame2.pack(expand = True)
+
+
+
+
+button_play = Button(frame1, text = 'PLAY',width = 25, height = 2, fg = '#FF9377', bg = '#055256' ,highlightcolor='white' ,activebackground='#13282B', activeforeground='#9AB8BA', font='calibri' ,cursor = 'heart' ,command = lambda : changeframe(frame_menu, frame_game))
+button_play.pack()
+
+button_settings = Button(frame1, text = 'SETTINGS',width = 25, height = 2, bg = '#055256', font='calibri', command = lambda : changeframe(frame_menu, frame_settings) )
+button_settings.pack(pady=15)
+button_exit = Button(frame1, text='EXIT', width = 25, height = 2, bg = '#055256',font=('calibri', 20), command=window.destroy)
+button_exit.pack()
+
+
+button_back = Button(frame3, text = 'BACK',width = 25, height = 2, bg = '#055256', command = lambda : changeframe(frame_game, frame_menu) )
+button_back.pack()
+
+label_difficulty = Label(frame2, text= 'CHOOSE YOUR DIFFICULTY', bg= '#9AB8BA', fg='white')
+button_Back = Button(frame2, text = 'BACK',width = 25, height = 2, bg = '#055256', command = lambda : changeframe(frame_settings, frame_menu) )
+button_easy = Button(frame2, text = 'EASY',width = 25, height = 2, bg = '#055256', command = lambda : changedifficulty(button_easy))
+label_difficulty.pack()
+button_easy.pack(pady = 15)
+button_Back.pack(pady = 15)
 
 
 
