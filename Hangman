@@ -47,21 +47,23 @@ frame2.pack(expand = True)
 
 
 
-button_play = Button(frame1, text = 'PLAY',width = 25, height = 2, fg = '#FF9377', bg = '#055256' ,highlightcolor='white' ,activebackground='#13282B', activeforeground='#9AB8BA', font='calibri' ,cursor = 'heart' ,command = lambda : changeframe(frame_menu, frame_game))
+button_play = Button(frame1, text = 'PLAY',width = 25, height = 2, fg = '#FF9377', bg = '#055256' ,highlightcolor='white' ,activebackground='#13282B', activeforeground='#9AB8BA',font=('calibri', 20) ,cursor = 'heart' ,command = lambda : changeframe(frame_menu, frame_game))
 button_play.pack()
 
-button_settings = Button(frame1, text = 'SETTINGS',width = 25, height = 2, bg = '#055256', font='calibri', command = lambda : changeframe(frame_menu, frame_settings) )
+button_settings = Button(frame1, text = 'SETTINGS',width = 25, height = 2, bg = '#055256', font=('calibri', 20), command = lambda : changeframe(frame_menu, frame_settings) )
 button_settings.pack(pady=15)
 button_exit = Button(frame1, text='EXIT', width = 25, height = 2, bg = '#055256',font=('calibri', 20), command=window.destroy)
 button_exit.pack()
 
 
-button_back = Button(frame3, text = 'BACK',width = 25, height = 2, bg = '#055256', command = lambda : changeframe(frame_game, frame_menu) )
-button_back.pack()
+button_back = Button(frame_game, text = 'BACK',width = 25, height = 2, bg = '#055256',font=('calibri', 20) ,command = lambda : changeframe(frame_game, frame_menu) )
+button_back.place(x=5, y = 5)
+entry_word = Entry(frame_game, width=50)
+entry_word.place(x=800, y= 500)
 
-label_difficulty = Label(frame2, text= 'CHOOSE YOUR DIFFICULTY', bg= '#9AB8BA', fg='white')
-button_Back = Button(frame2, text = 'BACK',width = 25, height = 2, bg = '#055256', command = lambda : changeframe(frame_settings, frame_menu) )
-button_easy = Button(frame2, text = 'EASY',width = 25, height = 2, bg = '#055256', command = lambda : changedifficulty(button_easy))
+label_difficulty = Label(frame2, text= 'CHOOSE YOUR DIFFICULTY', bg= '#9AB8BA', fg='white', font=('calibri', 20))
+button_Back = Button(frame2, text = 'BACK',width = 25, height = 2, bg = '#055256',font=('calibri', 20) ,command = lambda : changeframe(frame_settings, frame_menu) )
+button_easy = Button(frame2, text = 'EASY',width = 25, height = 2, bg = '#055256',font=('calibri', 20) ,command = lambda : changedifficulty(button_easy))
 label_difficulty.pack()
 button_easy.pack(pady = 15)
 button_Back.pack(pady = 15)
