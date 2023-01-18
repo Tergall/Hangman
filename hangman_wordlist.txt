@@ -38,6 +38,7 @@ open
 page
 park
 play
+slay
 read
 rest
 rich
