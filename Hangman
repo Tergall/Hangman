@@ -13,10 +13,11 @@ textfile.close()
 difficulty = 1
 used = ""
 initial_health = 1
+parts = []
 
 def pregame():
     wordlist = []
-    global initial_health, health, chosen_word, used_letters, difficulty, used
+    global initial_health, health, chosen_word, used_letters, difficulty, used, parts
     if difficulty == 1:                                                         # easy
         initial_health = 11
         for word in all_words:
@@ -38,6 +39,8 @@ def pregame():
     label_used["text"] = "Used letters: [ ]"
     label_feedback["text"] = ""
     used_letters = []
+    parts = [False] * 11
+    canvas.delete('all')
     
 
 def changeframe(from_f, to_f):
@@ -78,6 +81,8 @@ def key_pressed(event):
         used_letters.append(event.char)
         health -= 1
         label_feedback["text"] = "Wrong TT"
+        draw_part(20, 20, health)
+
     
     puzzle = ""
     for letter in chosen_word:
@@ -98,6 +103,50 @@ def key_pressed(event):
     if health <= 0:
         losing_moment()
 
+def draw_part(x1, y1, health):
+    size = canvas.winfo_width() * 0.9
+    l_width = size / 30
+    x2 = x1 + size
+    y2 = y1 + size
+    dim1 = size / 3
+    dim2 = dim1 / 2
+    dim3 = dim2 / 2
+    dim4 = dim3 / 2
+    global parts
+    part = round(((initial_health - health) / initial_health) * len(parts))
+    if part >= 1 and parts[0] == False:
+        canvas.create_line(x1, y2, x1 + dim1, y2, width = l_width, capstyle = ROUND)
+        parts[0] = True
+    if part >= 2 and parts[1] == False:
+        canvas.create_line(x1  + dim2, y2, x1 + dim2, y1, width = l_width, capstyle = ROUND)
+        parts[1] = True
+    if part >= 3 and parts[2] == False:
+        canvas.create_line(x1  + dim2, y1, x2 - dim2, y1, width = l_width, capstyle = ROUND)
+        parts[2] = True
+    if part >= 4 and parts[3] == False:
+        canvas.create_line(x1  + dim2, y1 + dim2, x1 + dim1, y1, width = l_width, capstyle = ROUND)
+        parts[3] = True
+    if part >= 5 and parts[4] == False:
+        canvas.create_line(x2 - (dim2 + dim3), y1, x2 - (dim2 + dim3), y1 + dim2 + dim3, width = l_width, capstyle = ROUND)
+        parts[4] = True
+    if part >= 6 and parts[5] == False:
+        canvas.create_oval(x2 - (dim1), y1 + dim2 + dim3, x2 - (dim2), y1 + (dim1 + dim3), width = l_width)
+        parts[5] = True
+    if part >= 7 and parts[6] == False:
+        canvas.create_line(x2 - (dim2 + dim3), y1 + (dim1 + dim3), x2 - (dim2 + dim3), y1 + (2 * dim1), width = l_width, capstyle = ROUND)
+        parts[6] = True
+    if part >= 8 and parts[7] == False:
+        canvas.create_line(x2 - (dim2 + dim3), y1 + (dim1 + dim3), x2 - dim1, y1 + (dim1 + dim2 + dim4), width = l_width, capstyle = ROUND)
+        parts[7] = True
+    if part >= 9 and parts[8] == False:
+        canvas.create_line(x2 - (dim2 + dim3), y1 + (dim1 + dim3), x2 - dim2, y1 + (dim1 + dim2 + dim4), width = l_width, capstyle = ROUND)
+        parts[8] = True
+    if part >= 10 and parts[9] == False:
+        canvas.create_line(x2 - (dim2 + dim3), y1 + (2 * dim1), x2 - dim1, y1 + (2 * dim1 + dim3+ dim4), width = l_width, capstyle = ROUND)
+        parts[9] = True
+    if part >= 11 and parts[10] == False:
+        canvas.create_line(x2 - (dim2 + dim3), y1 + (2 * dim1), x2 - dim2, y1 + (2 * dim1 + dim3+ dim4), width = l_width, capstyle = ROUND)
+        parts[10] = True
 
 window.bind("<Key>", key_pressed)
 
@@ -140,6 +189,8 @@ label_used = Label(frame_game, text = "", bg = '#9AB8BA', font = ('calibri', 40)
 label_used.place(x = 1300, y = 200)
 label_feedback = Label(frame_game, text = "", bg = '#9AB8BA', font = ('calibri', 40))
 label_feedback.place(x = 800, y = 100)
+canvas = Canvas(frame_game, width = 500, height = 500, bg = '#9AB8BA', borderwidth = 0, highlightthickness = 0)
+canvas.place(x = 800, y = 400)
 
 label_difficulty = Label(frame2, text= 'CHOOSE YOUR DIFFICULTY', bg= '#9AB8BA', fg='white', font=('calibri', 20))
 button_Back = Button(frame2, text = 'BACK',width = 25, height = 2, bg = '#055256',font=('calibri', 20) ,command = lambda : changeframe(frame_settings, frame_menu) )
