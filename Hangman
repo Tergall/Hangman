@@ -1,15 +1,25 @@
 from tkinter import *
 import random
 
-window = Tk() # declare the window
-window.title("HANGMAN") # set window title
+window = Tk()
+window.title("HANGMAN")
 window.configure(width = (int(window.winfo_screenwidth())), height = (int(window.winfo_screenheight()))) # set window width and height
-window.configure(bg = 'grey') # set window background color
+window.configure(bg = 'grey')
 
 textfile = open("hangman_wordlist.txt", "r")                                # pre-game, setting the variables
 all_words = tuple(textfile.readlines())
 textfile.close()
 
+#colour values variables
+main_background = '#9AB8BA'
+font_default = '#E4F4F4'
+font_pressed = '#9AB8BA'
+background_pressed = '#13282B'
+font_label = '#0C3D59'
+
+
+
+gaming = True
 difficulty = 1
 used = ""
 initial_health = 1
@@ -17,7 +27,7 @@ parts = []
 
 def pregame():
     wordlist = []
-    global initial_health, health, chosen_word, used_letters, difficulty, used, parts
+    global initial_health, health, chosen_word, used_letters, difficulty, used, parts, gaming
     if difficulty == 1:                                                         # easy
         initial_health = 11
         for word in all_words:
@@ -40,6 +50,7 @@ def pregame():
     label_feedback["text"] = ""
     used_letters = []
     parts = [False] * 11
+    gaming = True
     canvas.delete('all')
     
 
@@ -63,13 +74,19 @@ def change_difficulty():
 
 def winning_moment():
     label_feedback["text"] = "You won!"
+    global gaming
+    gaming = False
 
 
 def losing_moment():
     label_feedback["text"] = f"You fool! The correct word was: {chosen_word}"
+    global gaming
+    gaming = False
 
 
 def key_pressed(event):
+    if gaming == False:
+        return
     global health
     if not event.char.isalpha():
         label_feedback["text"] = "Invalid character"
@@ -151,50 +168,50 @@ def draw_part(x1, y1, health):
 window.bind("<Key>", key_pressed)
 
 #main window
-frame_menu = Frame(window, width = (int(window.winfo_screenwidth())), height = (int(window.winfo_screenheight())), bg = '#9AB8BA')
-frame_game = Frame(window, width = (int(window.winfo_screenwidth())), height = (int(window.winfo_screenheight())), bg = '#9AB8BA')
-frame_settings = Frame(window, width = (int(window.winfo_screenwidth())), height = (int(window.winfo_screenheight())), bg = '#9AB8BA')
+frame_menu = Frame(window, width = (int(window.winfo_screenwidth())), height = (int(window.winfo_screenheight())), bg = main_background)
+frame_game = Frame(window, width = (int(window.winfo_screenwidth())), height = (int(window.winfo_screenheight())), bg = main_background)
+frame_settings = Frame(window, width = (int(window.winfo_screenwidth())), height = (int(window.winfo_screenheight())), bg = main_background)
 
 #menu
 frame_menu.pack(side = TOP)
 frame_menu.pack_propagate(False)
-frame1 = Frame(frame_menu, bg = '#9AB8BA')
+frame1 = Frame(frame_menu, bg = main_background)
 frame1.pack(expand = True)
 
 #game
 frame_game.pack_propagate(False)
-frame3 = Frame(frame_game, bg = '#9AB8BA')
+frame3 = Frame(frame_game, bg = main_background)
 frame3.pack(expand = True)
 
 #settings
 frame_settings.pack_propagate(False)
-frame2 = Frame(frame_settings, bg = '#9AB8BA')
+frame2 = Frame(frame_settings, bg = main_background)
 frame2.pack(expand = True)
 
 
-button_play = Button(frame1, text = 'PLAY', width = 25, height = 2, fg = '#FF9377', bg = '#055256', highlightcolor='white', activebackground='#13282B', activeforeground='#9AB8BA', font=('calibri', 20), command = lambda : [changeframe(frame_menu, frame_game), pregame()])
+button_play = Button(frame1, text = 'PLAY', width = 25, height = 2, fg = font_default, bg = '#055256', highlightcolor = 'white', activebackground = background_pressed, activeforeground = font_pressed, font=('calibri', 20), command = lambda : [changeframe(frame_menu, frame_game), pregame()])
 button_play.pack()
 
-button_settings = Button(frame1, text = 'SETTINGS',width = 25, height = 2, bg = '#055256', font=('calibri', 20), command = lambda : changeframe(frame_menu, frame_settings) )
+button_settings = Button(frame1, text = 'SETTINGS', width = 25, height = 2, fg = font_default, bg = '#055256', activeforeground = font_pressed, activebackground = background_pressed, font=('calibri', 20), command = lambda : changeframe(frame_menu, frame_settings) )
 button_settings.pack(pady=15)
-button_exit = Button(frame1, text='EXIT', width = 25, height = 2, bg = '#055256',font=('calibri', 20), command=window.destroy)
+button_exit = Button(frame1, text='EXIT', width = 25, height = 2, bg = '#055256', fg = font_default, activeforeground = font_pressed, activebackground = background_pressed, font = ('calibri', 20), command = window.destroy)
 button_exit.pack()
 
 
-button_back = Button(frame_game, text = 'BACK',width = 25, height = 2, bg = '#055256',font=('calibri', 20) ,command = lambda : changeframe(frame_game, frame_menu) )
+button_back = Button(frame_game, text = 'BACK',width = 25, height = 2, fg = font_default, activeforeground = font_pressed, activebackground = background_pressed, bg = '#055256',font=('calibri', 20) ,command = lambda : changeframe(frame_game, frame_menu) )
 button_back.place(x=5, y = 5)
-label_puzzle = Label(frame_game, text = "", bg = '#9AB8BA', font=('calibri', 40))
+label_puzzle = Label(frame_game, text = "", bg = main_background, font=('calibri', 40))
 label_puzzle.place(x = 600, y = 200)
-label_used = Label(frame_game, text = "", bg = '#9AB8BA', font = ('calibri', 40))
+label_used = Label(frame_game, text = "", bg = main_background, font = ('calibri', 40))
 label_used.place(x = 1300, y = 200)
-label_feedback = Label(frame_game, text = "", bg = '#9AB8BA', font = ('calibri', 40))
+label_feedback = Label(frame_game, text = "", bg = main_background, font = ('calibri', 40))
 label_feedback.place(x = 800, y = 100)
-canvas = Canvas(frame_game, width = 500, height = 500, bg = '#9AB8BA', borderwidth = 0, highlightthickness = 0)
+canvas = Canvas(frame_game, width = 500, height = 500, bg = main_background, borderwidth = 0, highlightthickness = 0)
 canvas.place(x = 800, y = 400)
 
-label_difficulty = Label(frame2, text= 'CHOOSE YOUR DIFFICULTY', bg= '#9AB8BA', fg='white', font=('calibri', 20))
-button_Back = Button(frame2, text = 'BACK',width = 25, height = 2, bg = '#055256',font=('calibri', 20) ,command = lambda : changeframe(frame_settings, frame_menu) )
-button_difficulty = Button(frame2, text = 'EASY',width = 25, height = 2, bg = '#055256',font=('calibri', 20) ,command = lambda : change_difficulty())
+label_difficulty = Label(frame2, text = 'CHOOSE YOUR DIFFICULTY', bg = main_background, fg = font_label, font = ('calibri', 20))
+button_Back = Button(frame2, text = 'BACK', width = 25, height = 2, bg = '#055256', activeforeground = font_pressed, activebackground = background_pressed, fg = font_default, font=('calibri', 20), command = lambda : changeframe(frame_settings, frame_menu) )
+button_difficulty = Button(frame2, text = 'EASY', width = 25, height = 2, bg = '#055256', activeforeground = font_pressed, activebackground = background_pressed, fg = font_default, font=('calibri', 20), command = lambda : change_difficulty())
 label_difficulty.pack()
 button_difficulty.pack(pady = 15)
 button_Back.pack(pady = 15)
