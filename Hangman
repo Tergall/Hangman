@@ -1,13 +1,14 @@
 from tkinter import *
 import random
+import os, sys
 
 window = Tk()
 window.title("HANGMAN")
 window.configure(width = (int(window.winfo_screenwidth())), height = (int(window.winfo_screenheight()))) # set window width and height
 
+bundle_dir = getattr(sys, '_MEIPASS', os.path.abspath(os.path.dirname(__file__)))
 
-
-textfile = open("hangman_wordlist.txt", "r")                                # pre-game, setting the variables
+textfile = open(os.path.join(bundle_dir, "hangman_wordlist.txt"), "r")                                # pre-game, setting the variables
 all_words = tuple(textfile.readlines())
 textfile.close()
 
