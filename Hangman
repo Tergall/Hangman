@@ -50,7 +50,7 @@ def pregame():
     health = initial_health
     chosen_word = random.choice(wordlist)
     label_puzzle["text"] = f'{len(chosen_word) * "_ "} [{len(chosen_word)}]'
-    label_used["text"] = "Used letters: [ ]"
+    label_used["text"] = "Used letters: \n[ ]"
     label_feedback["text"] = ""
     used_letters = []
     parts = [False] * 11
@@ -83,7 +83,7 @@ def winning_moment():
 
 
 def losing_moment():
-    label_feedback["text"] = f"You fool! The correct word was: {chosen_word}"
+    label_feedback["text"] = f"You lost! The correct word was: {chosen_word}"
     global gaming
     gaming = False
 
@@ -101,7 +101,7 @@ def key_pressed(event):
     else:
         used_letters.append(event.char)
         health -= 1
-        label_feedback["text"] = "Wrong TT"
+        label_feedback["text"] = "Wrong"
         draw_part(20, 20, health)
 
     
@@ -117,7 +117,7 @@ def key_pressed(event):
     for letter in used_letters:
         if letter not in used:
             used.append(letter)
-    label_used["text"] = "Used letters: [" + ", ".join(sorted(used)) + "]"
+    label_used["text"] = "Used letters: \n[" + ", ".join(sorted(used)) + "]"
     
     if "_" not in puzzle:                                             
         winning_moment()
@@ -204,14 +204,14 @@ button_exit.pack()
 
 button_back = Button(frame_game, text = 'BACK',width = 25, height = 2, fg = font_default, activeforeground = font_pressed, activebackground = background_pressed, bg = background_default,font=(font, 20) ,command = lambda : changeframe(frame_game, frame_menu) )
 button_back.place(x=5, y = 5)
-label_puzzle = Label(frame_game, text = "", bg = main_background, font=(font, 40))
-label_puzzle.place(x = 600, y = 200)
-label_used = Label(frame_game, text = "", bg = main_background, font = (font, 40))
-label_used.place(x = 1300, y = 200)
-label_feedback = Label(frame_game, text = "", bg = main_background, font = (font, 40))
-label_feedback.place(x = 800, y = 100)
+label_puzzle = Label(frame_game, text = "", bg = main_background, font=(font, 35))
+label_puzzle.place(relx = 0.312, y = 200)
+label_used = Label(frame_game, text = "", bg = main_background, font = (font, 35), wraplength = 500, justify = LEFT)
+label_used.place(relx = 0.677, y = 200)
+label_feedback = Label(frame_game, text = "", bg = main_background, font = (font, 35))
+label_feedback.place(relx = 0.5, y = 100, anchor = CENTER)
 canvas = Canvas(frame_game, width = 500, height = 500, bg = main_background, borderwidth = 0, highlightthickness = 0)
-canvas.place(x = 800, y = 400)
+canvas.place(relx = 0.417, y = 400)
 
 label_difficulty = Label(frame2, text = 'CHOOSE YOUR DIFFICULTY', bg = main_background, fg = font_label, font = (font, 20))
 button_Back = Button(frame2, text = 'BACK', width = 25, height = 2, bg = background_default, activeforeground = font_pressed, activebackground = background_pressed, fg = font_default, font=(font, 20), command = lambda : changeframe(frame_settings, frame_menu) )
