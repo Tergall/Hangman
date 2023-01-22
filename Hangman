@@ -231,7 +231,7 @@ label_used.place(relx = 0.677, y = 200)
 label_feedback = Label(frame_game, text = "", bg = main_background, font = (font, 35), fg = font_label)
 label_feedback.place(relx = 0.5, y = 100, anchor = CENTER)
 canvas = Canvas(frame_game, width = 500, height = 500, bg = main_background, borderwidth = 0, highlightthickness = 0)
-canvas.place(relx = 0.417, y = 400)
+canvas.place(relx = 0.5, rely = 0.65, anchor = CENTER)
 
 label_difficulty = Label(frame2, text = 'CHOOSE YOUR DIFFICULTY', bg = main_background, fg = font_label, font = (font, 30))
 button_Back = Button(frame2, text = 'BACK', width = 25, height = 2, bg = background_default, activeforeground = font_pressed, activebackground = background_pressed, fg = font_default, font=(font, 20), command = lambda : changeframe(frame_settings, frame_menu) )
