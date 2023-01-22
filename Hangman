@@ -4,7 +4,8 @@ import random
 window = Tk()
 window.title("HANGMAN")
 window.configure(width = (int(window.winfo_screenwidth())), height = (int(window.winfo_screenheight()))) # set window width and height
-window.configure(bg = 'grey')
+
+
 
 textfile = open("hangman_wordlist.txt", "r")                                # pre-game, setting the variables
 all_words = tuple(textfile.readlines())
@@ -67,13 +68,16 @@ def change_difficulty():
     global difficulty
     if difficulty == 1:
         difficulty += 1
-        button_difficulty['text'] = 'NORMAL'   
+        button_difficulty['text'] = 'NORMAL'
+        label_info.config(text = 'HEALTH: 8\nWORDS: MEDIUM ')   
     elif difficulty == 2:
         difficulty += 1
         button_difficulty['text'] = 'HARD'
+        label_info.config(text = 'HEALTH: 6\nWORDS: SHORT ')
     else:
         difficulty = 1
         button_difficulty['text'] = 'EASY'
+        label_info.config(text = 'HEALTH: 11\nWORDS: LONG ')
 	
 
 def winning_moment():
@@ -136,40 +140,56 @@ def draw_part(x1, y1, health):
     global parts
     part = round(((initial_health - health) / initial_health) * len(parts))
     if part >= 1 and parts[0] == False:
-        canvas.create_line(x1, y2, x1 + dim1, y2, width = l_width, capstyle = ROUND)
+        canvas.create_line(x1, y2, x1 + dim1, y2, width = l_width, capstyle = ROUND, fill = font_label)
         parts[0] = True
     if part >= 2 and parts[1] == False:
-        canvas.create_line(x1  + dim2, y2, x1 + dim2, y1, width = l_width, capstyle = ROUND)
+        canvas.create_line(x1  + dim2, y2, x1 + dim2, y1, width = l_width, capstyle = ROUND, fill = font_label)
         parts[1] = True
     if part >= 3 and parts[2] == False:
-        canvas.create_line(x1  + dim2, y1, x2 - dim2, y1, width = l_width, capstyle = ROUND)
+        canvas.create_line(x1  + dim2, y1, x2 - dim2, y1, width = l_width, capstyle = ROUND, fill = font_label)
         parts[2] = True
     if part >= 4 and parts[3] == False:
-        canvas.create_line(x1  + dim2, y1 + dim2, x1 + dim1, y1, width = l_width, capstyle = ROUND)
+        canvas.create_line(x1  + dim2, y1 + dim2, x1 + dim1, y1, width = l_width, capstyle = ROUND, fill = font_label)
         parts[3] = True
     if part >= 5 and parts[4] == False:
-        canvas.create_line(x2 - (dim2 + dim3), y1, x2 - (dim2 + dim3), y1 + dim2 + dim3, width = l_width, capstyle = ROUND)
+        canvas.create_line(x2 - (dim2 + dim3), y1, x2 - (dim2 + dim3), y1 + dim2 + dim3, width = l_width, capstyle = ROUND, fill = font_label)
         parts[4] = True
     if part >= 6 and parts[5] == False:
-        canvas.create_oval(x2 - (dim1), y1 + dim2 + dim3, x2 - (dim2), y1 + (dim1 + dim3), width = l_width)
+        canvas.create_oval(x2 - (dim1), y1 + dim2 + dim3, x2 - (dim2), y1 + (dim1 + dim3), width = l_width, fill = font_label, outline = font_label)
         parts[5] = True
     if part >= 7 and parts[6] == False:
-        canvas.create_line(x2 - (dim2 + dim3), y1 + (dim1 + dim3), x2 - (dim2 + dim3), y1 + (2 * dim1), width = l_width, capstyle = ROUND)
+        canvas.create_line(x2 - (dim2 + dim3), y1 + (dim1 + dim3), x2 - (dim2 + dim3), y1 + (2 * dim1), width = l_width, capstyle = ROUND, fill = font_label)
         parts[6] = True
     if part >= 8 and parts[7] == False:
-        canvas.create_line(x2 - (dim2 + dim3), y1 + (dim1 + dim3), x2 - dim1, y1 + (dim1 + dim2 + dim4), width = l_width, capstyle = ROUND)
+        canvas.create_line(x2 - (dim2 + dim3), y1 + (dim1 + dim3), x2 - dim1, y1 + (dim1 + dim2 + dim4), width = l_width, capstyle = ROUND, fill = font_label)
         parts[7] = True
     if part >= 9 and parts[8] == False:
-        canvas.create_line(x2 - (dim2 + dim3), y1 + (dim1 + dim3), x2 - dim2, y1 + (dim1 + dim2 + dim4), width = l_width, capstyle = ROUND)
+        canvas.create_line(x2 - (dim2 + dim3), y1 + (dim1 + dim3), x2 - dim2, y1 + (dim1 + dim2 + dim4), width = l_width, capstyle = ROUND, fill = font_label)
         parts[8] = True
     if part >= 10 and parts[9] == False:
-        canvas.create_line(x2 - (dim2 + dim3), y1 + (2 * dim1), x2 - dim1, y1 + (2 * dim1 + dim3+ dim4), width = l_width, capstyle = ROUND)
+        canvas.create_line(x2 - (dim2 + dim3), y1 + (2 * dim1), x2 - dim1, y1 + (2 * dim1 + dim3+ dim4), width = l_width, capstyle = ROUND, fill = font_label)
         parts[9] = True
     if part >= 11 and parts[10] == False:
-        canvas.create_line(x2 - (dim2 + dim3), y1 + (2 * dim1), x2 - dim2, y1 + (2 * dim1 + dim3+ dim4), width = l_width, capstyle = ROUND)
+        canvas.create_line(x2 - (dim2 + dim3), y1 + (2 * dim1), x2 - dim2, y1 + (2 * dim1 + dim3+ dim4), width = l_width, capstyle = ROUND, fill = font_label)
         parts[10] = True
 
 window.bind("<Key>", key_pressed)
+
+def info(e):
+    if difficulty == 1:
+        label_info.config(text = 'HEALTH: 11\nWORDS: LONG ')
+    elif difficulty == 2:
+        label_info.config(text = 'HEALTH: 8\nWORDS: MEDIUM ')
+    else:
+        label_info.config(text = 'HEALTH: 6\nWORDS: SHORT ')
+
+
+
+def close(e):
+    
+    label_info.config(text = '\n')
+
+
 
 #main window
 frame_menu = Frame(window, width = (int(window.winfo_screenwidth())), height = (int(window.winfo_screenheight())), bg = main_background)
@@ -204,20 +224,25 @@ button_exit.pack()
 
 button_back = Button(frame_game, text = 'BACK',width = 25, height = 2, fg = font_default, activeforeground = font_pressed, activebackground = background_pressed, bg = background_default,font=(font, 20) ,command = lambda : changeframe(frame_game, frame_menu) )
 button_back.place(x=5, y = 5)
-label_puzzle = Label(frame_game, text = "", bg = main_background, font=(font, 35))
+label_puzzle = Label(frame_game, text = "", bg = main_background, font=(font, 35), fg = font_label)
 label_puzzle.place(relx = 0.312, y = 200)
-label_used = Label(frame_game, text = "", bg = main_background, font = (font, 35), wraplength = 500, justify = LEFT)
+label_used = Label(frame_game, text = "", bg = main_background, font = (font, 35), wraplength = 500, justify = LEFT, fg = font_label)
 label_used.place(relx = 0.677, y = 200)
-label_feedback = Label(frame_game, text = "", bg = main_background, font = (font, 35))
+label_feedback = Label(frame_game, text = "", bg = main_background, font = (font, 35), fg = font_label)
 label_feedback.place(relx = 0.5, y = 100, anchor = CENTER)
 canvas = Canvas(frame_game, width = 500, height = 500, bg = main_background, borderwidth = 0, highlightthickness = 0)
 canvas.place(relx = 0.417, y = 400)
 
-label_difficulty = Label(frame2, text = 'CHOOSE YOUR DIFFICULTY', bg = main_background, fg = font_label, font = (font, 20))
+label_difficulty = Label(frame2, text = 'CHOOSE YOUR DIFFICULTY', bg = main_background, fg = font_label, font = (font, 30))
 button_Back = Button(frame2, text = 'BACK', width = 25, height = 2, bg = background_default, activeforeground = font_pressed, activebackground = background_pressed, fg = font_default, font=(font, 20), command = lambda : changeframe(frame_settings, frame_menu) )
 button_difficulty = Button(frame2, text = 'EASY', width = 25, height = 2, bg = background_default, activeforeground = font_pressed, activebackground = background_pressed, fg = font_default, font=(font, 20), command = lambda : change_difficulty())
+label_info = Label(frame2, text = '\n', bg = main_background, font=(font, 20), fg = font_label )
 label_difficulty.pack()
+label_info.pack(pady = 5)
 button_difficulty.pack(pady = 15)
 button_Back.pack(pady = 15)
+
+button_difficulty.bind('<Enter>', info)
+button_difficulty.bind('<Leave>', close)
 
 window.mainloop()
